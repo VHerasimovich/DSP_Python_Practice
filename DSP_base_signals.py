@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
-import numpy as nm
+import math
 
 
-# Delta function generation
 def delta_function_generator(signal_length=None, delta_n=0):
     assert signal_length is not None, "Signal length is not specified!"
     assert delta_n < signal_length, "Signal length is smaller than delta offset!"
@@ -10,7 +9,6 @@ def delta_function_generator(signal_length=None, delta_n=0):
     return delta_function_signal
 
 
-# Unit step function generation
 def unit_step_function_generator(signal_length=None, unit_step_n=0):
     assert signal_length is not None, "Signal length is not specified!"
     assert unit_step_n < signal_length, "Signal length is smaller than unit step offset!"
@@ -18,6 +16,15 @@ def unit_step_function_generator(signal_length=None, unit_step_n=0):
     return unit_function_signal
 
 
-unit_function = unit_step_function_generator(signal_length=10)
-plt.stem(unit_function)
+def fading_exponent_generator(signal_length=None, fading_speed=None):
+    assert signal_length is not None, "Signal length is not specified!"
+    assert fading_speed is not None, "Fading parameter is not specified!"
+    assert fading_speed < 1, "Fading parameter is wrong!"
+    unit_step = unit_step_function_generator(signal_length)
+    fading_exponent_signal = [(fading_speed ** n)*unit_step[n] for n in range(signal_length)]
+    return fading_exponent_signal
+
+
+fading_exponent = fading_exponent_generator(signal_length=10, fading_speed=0.7)
+plt.stem(fading_exponent)
 plt.show()
