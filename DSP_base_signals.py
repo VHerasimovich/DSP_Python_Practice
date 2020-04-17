@@ -70,5 +70,5 @@ def discrete_harmonic_signal_generator(**kwargs):
 # plt.show()
 
 delta_signal_generator = lambda signal_length, delta_n: [x * 0 + (x == delta_n) for x in range(signal_length)]
-plt.stem(delta_signal_generator(10, 5))
-plt.show()
+# plt.stem(delta_signal_generator(10, 5))
+# plt.show()
