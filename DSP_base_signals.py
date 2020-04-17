@@ -2,11 +2,11 @@ import matplotlib.pyplot as plt
 import math
 
 
-def delta_function_generator(signal_length=None, delta_n=0):
-    assert signal_length is not None, "Signal length is not specified!"
-    assert delta_n < signal_length, "Signal length is smaller than delta offset!"
-    delta_function_signal = [x * 0 + (x == delta_n) for x in range(signal_length)]
-    return delta_function_signal
+# def delta_function_generator(signal_length=None, delta_n=0):
+#     assert signal_length is not None, "Signal length is not specified!"
+#     assert delta_n < signal_length, "Signal length is smaller than delta offset!"
+#     delta_function_signal = [x * 0 + (x == delta_n) for x in range(signal_length)]
+#     return delta_function_signal
 
 
 def unit_step_function_generator(signal_length=None, unit_step_n=0):
@@ -41,7 +41,6 @@ def cosine_generator(signal_length=None, **kwargs):
     return cos_signal
 
 
-# def discrete_harmonic_signal_generator(magnitude, frequency, sampling_rate, duration, init_phase):
 def discrete_harmonic_signal_generator(**kwargs):
     assert len(kwargs) == 5, "Not enough parameters for signal generator!"
     for key in kwargs:
@@ -61,11 +60,15 @@ def discrete_harmonic_signal_generator(**kwargs):
     return harmonic_signal
 
 
-harmonic_parameters = {'magnitude': 1,
-                       'frequency': 100,
-                       'sampling_rate': 8000,
-                       'init_phase': 0,
-                       'duration': 1}
-sin_signal = discrete_harmonic_signal_generator(**harmonic_parameters)
-plt.plot(sin_signal[1:80])
+# harmonic_parameters = {'magnitude': 1,
+#                        'frequency': 100,
+#                        'sampling_rate': 8000,
+#                        'init_phase': 0,
+#                        'duration': 1}
+# sin_signal = discrete_harmonic_signal_generator(**harmonic_parameters)
+# plt.plot(sin_signal[1:80])
+# plt.show()
+
+delta_signal_generator = lambda signal_length, delta_n: [x * 0 + (x == delta_n) for x in range(signal_length)]
+plt.stem(delta_signal_generator(10, 5))
 plt.show()
