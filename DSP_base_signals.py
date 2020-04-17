@@ -41,8 +41,31 @@ def cosine_generator(signal_length=None, **kwargs):
     return cos_signal
 
 
-cosine_parameters = {'Magnitude': 1,
-                     'frequency': 2 * math.pi / 16}
-cosine_signal = cosine_generator(signal_length=15, **cosine_parameters)
-plt.stem(cosine_signal)
+# def discrete_harmonic_signal_generator(magnitude, frequency, sampling_rate, duration, init_phase):
+def discrete_harmonic_signal_generator(**kwargs):
+    assert len(kwargs) == 5, "Not enough parameters for signal generator!"
+    for key in kwargs:
+        if key == 'magnitude':
+            magnitude = kwargs[key]
+        elif key == 'frequency':
+            frequency = kwargs[key]
+        elif key == 'sampling_rate':
+            sampling_rate = kwargs[key]
+        elif key == 'init_phase':
+            init_phase = kwargs[key]
+        elif key == 'duration':
+            duration = kwargs[key]
+
+    harmonic_signal = [magnitude * math.sin(2 * math.pi * frequency * (time_n * float(1 / sampling_rate)) + init_phase)
+                       for time_n in range(duration * sampling_rate)]
+    return harmonic_signal
+
+
+harmonic_parameters = {'magnitude': 1,
+                       'frequency': 100,
+                       'sampling_rate': 8000,
+                       'init_phase': 0,
+                       'duration': 1}
+sin_signal = discrete_harmonic_signal_generator(**harmonic_parameters)
+plt.plot(sin_signal[1:80])
 plt.show()
