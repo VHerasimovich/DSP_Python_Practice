@@ -10,10 +10,10 @@ def difference_equation(input_signal, *coefficients):
     a_length = len(coefficients_a)
     for signal_sample in range(work_signal_length):
         a_part, b_part = 0, 0
-        for i in range(b_length):
-            b_part += coefficients_b[i] * input_signal[signal_sample - i]
-        for i in range(a_length):
-            a_part += coefficients_a[i] * output_signal[signal_sample - i]
+        for b_i in range(b_length):
+            b_part += coefficients_b[b_i] * input_signal[signal_sample - b_i]
+        for a_i in range(a_length):
+            a_part += coefficients_a[a_i] * output_signal[signal_sample - a_i]
         output_signal[signal_sample] = b_part - a_part
     return output_signal
 
@@ -22,16 +22,26 @@ signal_length = 64
 delta_signal = bs.delta_signal_generator(signal_length, 0)
 # unit_step_signal = bs.unit_step_function_generator(signal_length)
 output_signal = [0 * j for j in range(signal_length)]    # initialization with zeros
+
 # all filter coefficients are in the file: first string -- b coeffs, second string -- a coeffs
 filename = 'filter_coefficients'
-file = open(filename, 'r')
-file_data = file.read()
-i = 0
-coefficients_string = file_data.split('\n', 2)
-coefficients_string[0] = coefficients_string[0].split(' ')
-coefficients_string[1] = coefficients_string[1].split(' ')
-coefficients_b_tuple = tuple([float(value) for value in coefficients_string[0]])
-coefficients_a_tuple = tuple([float(value) for value in coefficients_string[1]])
+file = None
+try:
+    file = open(filename, 'r')
+    file_data = file.read()
+    i = 0
+    coefficients_string = file_data.split('\n', 2)
+    coefficients_string[0] = coefficients_string[0].split(' ')
+    coefficients_string[1] = coefficients_string[1].split(' ')
+    coefficients_b_tuple = tuple([float(value) for value in coefficients_string[0]])
+    coefficients_a_tuple = tuple([float(value) for value in coefficients_string[1]])
+except FileNotFoundError:
+    print("There is no coefficients file!")
+    coefficients_b_tuple = (0, 0, 0)
+    coefficients_a_tuple = (0, 0, 0)
+finally:
+    if file is not None:
+        file.close()
 
 filtered_signal = difference_equation(delta_signal, *(coefficients_b_tuple, coefficients_a_tuple))
 
