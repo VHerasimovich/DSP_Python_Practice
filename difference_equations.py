@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import DSP_base_signals as bs
+import math
+import cmath
 
 
 def difference_equation(input_signal, *coefficients):
@@ -45,7 +47,20 @@ finally:
 
 filtered_signal = difference_equation(delta_signal, *(coefficients_b_tuple, coefficients_a_tuple))
 
-plt.stem(output_signal)
+# plt.stem(filtered_signal)
+# plt.grid(True)
+# plt.show()
+
+frequency_response = [0*n for n in range(signal_length)]
+magnitude_response = [0 * n for n in range(signal_length)]
+omega = 0
+frequency_response_length = 64
+for n in range(signal_length):
+    omega += cmath.pi / signal_length
+    for m in range(frequency_response_length):
+        frequency_response[n] += filtered_signal[m] * cmath.exp(1j*omega*m)
+    magnitude_response[n] = math.sqrt(frequency_response[n].real ** 2 + frequency_response[n].imag ** 2)
+
+plt.plot(magnitude_response)
 plt.grid(True)
 plt.show()
-
