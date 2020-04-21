@@ -51,8 +51,10 @@ filtered_signal = difference_equation(delta_signal, *(coefficients_b_tuple, coef
 # plt.grid(True)
 # plt.show()
 
-frequency_response = [0*n for n in range(signal_length)]
+frequency_response = [0 * n for n in range(signal_length)]
 magnitude_response = [0 * n for n in range(signal_length)]
+magnitude_response = [0 * n for n in range(signal_length)]
+phase_response = [0 * n for n in range(signal_length)]
 omega = 0
 frequency_response_length = 64
 for n in range(signal_length):
@@ -60,7 +62,12 @@ for n in range(signal_length):
     for m in range(frequency_response_length):
         frequency_response[n] += filtered_signal[m] * cmath.exp(1j*omega*m)
     magnitude_response[n] = math.sqrt(frequency_response[n].real ** 2 + frequency_response[n].imag ** 2)
+    phase_response[n] = math.atan2(-1*frequency_response[n].imag, frequency_response[n].real) * (180/math.pi)
 
+plt.subplot(2, 1, 1)
 plt.plot(magnitude_response)
+plt.grid(True)
+plt.subplot(2, 1, 2)
+plt.plot(phase_response)
 plt.grid(True)
 plt.show()
