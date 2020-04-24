@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import math
 
-
 # def delta_function_generator(signal_length=None, delta_n=0):
 #     assert signal_length is not None, "Signal length is not specified!"
 #     assert delta_n < signal_length, "Signal length is smaller than delta offset!"
@@ -56,7 +55,7 @@ def discrete_harmonic_signal_generator(**kwargs):
             duration = kwargs[key]
 
     harmonic_signal = [magnitude * math.sin(2 * math.pi * frequency * (time_n * float(1 / sampling_rate)) + init_phase)
-                       for time_n in range(duration * sampling_rate)]
+                       for time_n in range(int(duration * sampling_rate))]
     return harmonic_signal
 
 
@@ -67,6 +66,8 @@ def discrete_harmonic_signal_generator(**kwargs):
 #                        'duration': 1}
 # sin_signal = discrete_harmonic_signal_generator(**harmonic_parameters)
 # plt.plot(sin_signal[1:80])
+# plt.show()
+# plt.magnitude_spectrum(sin_signal)
 # plt.show()
 
 delta_signal_generator = lambda signal_length, delta_n: [x * 0 + (x == delta_n) for x in range(signal_length)]
