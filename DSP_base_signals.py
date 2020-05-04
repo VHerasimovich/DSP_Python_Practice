@@ -30,7 +30,7 @@ def cosine_generator(signal_length=None, **kwargs):
     phase0 = 0
     frequency = math.pi
     for key in kwargs:
-        if key == 'Magnitude':
+        if key == 'magnitude':
             magnitude = kwargs[key]
         elif key == 'init_phase':
             phase0 = kwargs[key]
