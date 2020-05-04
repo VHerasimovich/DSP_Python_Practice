@@ -91,4 +91,4 @@ def runDFT():
     #     print("IndexError instead of hand made class")
 
 
-runDFT()
+# runDFT()
