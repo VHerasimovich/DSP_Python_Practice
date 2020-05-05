@@ -2,6 +2,7 @@ import math
 import matplotlib.pyplot as plt
 import DSP_base_signals as bs
 import Fourier_transform as dft
+from random import uniform
 
 
 def power_estimation(signal_under_test):
@@ -31,14 +32,21 @@ test_harmonic_3 = []
 for i in range(test_signals_length):
     test_harmonic_3.append(harmonic_part_1[i]+harmonic_part_2[i])
 
+# white noise generation
+magnitude_noise = 0.5
+noise = [magnitude_noise * uniform(-1, 1) for n in range(test_signals_length)]
+
+new_cosine = bs.cosine_generator(test_signals_length, **{'frequency': 2*math.pi*9/128, 'magnitude': 0.4})
+
+mixed_signal = []
+for i in range(test_signals_length):
+    mixed_signal.append(new_cosine[i] + noise[i])
+
 harmonic_power, harmonic_power_db = power_estimation(test_harmonic_3)
+signal_periodogram = periodogram(mixed_signal)
+SNR = 10*math.log10(power_estimation(new_cosine)[0] / power_estimation(noise)[0])
 
-# plt.plot(test_harmonic_3)
-# plt.show()
-
-signal_periodogram = periodogram(test_harmonic_3)
-
-# plt.stem(signal_periodogram[1:round(len(signal_periodogram)/2)])
-# plt.show()
+plt.stem(signal_periodogram[1:round(len(signal_periodogram)/2)])
+plt.show()
 
 pass

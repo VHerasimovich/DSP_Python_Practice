@@ -50,7 +50,7 @@ def magnitude(*fourier_image):
 
     magnitude_spectre = [0 * i for i in range(len(real_part))]
     for binN in range(len(real_part)):
-        magnitude_spectre[binN] = math.sqrt(real_part[binN] ** 2 + imag_part[binN] ** 2)
+        magnitude_spectre[binN] = math.sqrt(real_part[binN] ** 2 + imag_part[binN] ** 2) / (len(real_part)/2)
 
     return magnitude_spectre
 
