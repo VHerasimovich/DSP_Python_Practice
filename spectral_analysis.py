@@ -5,9 +5,7 @@ import Fourier_transform as dft
 
 
 def power_estimation(signal_under_test):
-    power = 0
-    for i in range(len(signal_under_test)):
-        power += signal_under_test[i]**2
+    power = sum([signal_sample**2 for signal_sample in signal_under_test])
     power /= len(signal_under_test)
     assert power > 0, "Signal power must be greater than zero."
     power_db = 10 * math.log10(power)
@@ -19,9 +17,7 @@ def periodogram(signal_under_test):
     length_info = len(signal_under_test)
     frequency_domain = dft.DFT(signal_under_test, length_info)
     signal_magnitudes = dft.magnitude(*frequency_domain)
-    periodogram_array = []
-    for i in range(len(signal_under_test)):
-        periodogram_array.append(signal_magnitudes[i]**2 / length_info)
+    periodogram_array = [magnitude_element**2/length_info for magnitude_element in signal_magnitudes]
 
     return periodogram_array
 
@@ -42,7 +38,7 @@ harmonic_power, harmonic_power_db = power_estimation(test_harmonic_3)
 
 signal_periodogram = periodogram(test_harmonic_3)
 
-plt.stem(signal_periodogram[1:round(len(signal_periodogram)/2)])
-plt.show()
+# plt.stem(signal_periodogram[1:round(len(signal_periodogram)/2)])
+# plt.show()
 
 pass
